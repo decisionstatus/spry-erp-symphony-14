@@ -1,4 +1,4 @@
-import { Activity, Briefcase, ChartBar, Clipboard, Database, Settings, User } from "lucide-react";
+import { Activity, Briefcase, ChartBar, Clipboard, Database, Settings, User, Truck, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -7,6 +7,8 @@ const Sidebar = () => {
   const menuItems = [
     { icon: Activity, label: "Dashboard", path: "/" },
     { icon: Database, label: "Inventory", path: "/inventory" },
+    { icon: Truck, label: "Suppliers", path: "/suppliers" },
+    { icon: ShoppingCart, label: "Purchase Orders", path: "/purchase-orders" },
     { icon: Briefcase, label: "Sales", path: "/sales" },
     { icon: Clipboard, label: "Orders", path: "/orders" },
     { icon: ChartBar, label: "Reports", path: "/reports" },
