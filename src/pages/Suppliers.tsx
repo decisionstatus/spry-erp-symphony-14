@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -9,20 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 import Sidebar from "@/components/Layout/Sidebar";
-
-interface Supplier {
-  id: number;
-  name: string;
-  contact: string;
-  email: string;
-  phone: string;
-}
+import { AddSupplierDialog, Supplier } from "@/components/Suppliers/AddSupplierDialog";
 
 const Suppliers = () => {
-  const { toast } = useToast();
-  const [suppliers] = useState<Supplier[]>([
+  const [suppliers, setSuppliers] = useState<Supplier[]>([
     {
       id: 1,
       name: "ABC Supplies",
@@ -39,11 +29,11 @@ const Suppliers = () => {
     },
   ]);
 
-  const handleAddSupplier = () => {
-    toast({
-      title: "Feature Coming Soon",
-      description: "The ability to add suppliers will be available soon.",
-    });
+  const handleAddSupplier = (newSupplier: Omit<Supplier, "id">) => {
+    setSuppliers([
+      ...suppliers,
+      { ...newSupplier, id: suppliers.length + 1 },
+    ]);
   };
 
   return (
@@ -55,7 +45,7 @@ const Suppliers = () => {
             <h1 className="text-3xl font-bold">Suppliers</h1>
             <p className="text-gray-600">Manage your supplier database</p>
           </div>
-          <Button onClick={handleAddSupplier}>Add Supplier</Button>
+          <AddSupplierDialog onAddSupplier={handleAddSupplier} />
         </div>
 
         <div className="bg-white rounded-lg shadow">

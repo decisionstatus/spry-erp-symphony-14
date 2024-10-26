@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -9,25 +8,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
 import Sidebar from "@/components/Layout/Sidebar";
+import { CreateOrderDialog } from "@/components/PurchaseOrders/CreateOrderDialog";
+import { Supplier } from "@/components/Suppliers/AddSupplierDialog";
 
 interface PurchaseOrder {
   id: number;
   supplier: string;
   date: string;
+  items: Array<{
+    productName: string;
+    type: "product" | "raw_material";
+    quantity: number;
+    price: number;
+  }>;
   total: number;
   status: "pending" | "approved" | "delivered";
 }
 
 const PurchaseOrders = () => {
-  const { toast } = useToast();
-  const [orders] = useState<PurchaseOrder[]>([
+  const [suppliers] = useState<Supplier[]>([
+    {
+      id: 1,
+      name: "ABC Supplies",
+      contact: "John Doe",
+      email: "john@abcsupplies.com",
+      phone: "(555) 123-4567",
+    },
+    {
+      id: 2,
+      name: "XYZ Corporation",
+      contact: "Jane Smith",
+      email: "jane@xyzcorp.com",
+      phone: "(555) 987-6543",
+    },
+  ]);
+
+  const [orders, setOrders] = useState<PurchaseOrder[]>([
     {
       id: 1,
       supplier: "ABC Supplies",
       date: "2024-02-20",
+      items: [
+        { productName: "Raw Material A", type: "raw_material", quantity: 100, price: 52.50 }
+      ],
       total: 5250.00,
       status: "pending",
     },
@@ -35,16 +60,16 @@ const PurchaseOrders = () => {
       id: 2,
       supplier: "XYZ Corporation",
       date: "2024-02-19",
+      items: [
+        { productName: "Product X", type: "product", quantity: 50, price: 75.00 }
+      ],
       total: 3750.00,
       status: "approved",
     },
   ]);
 
-  const handleCreateOrder = () => {
-    toast({
-      title: "Feature Coming Soon",
-      description: "The ability to create purchase orders will be available soon.",
-    });
+  const handleCreateOrder = (newOrder: PurchaseOrder) => {
+    setOrders([...orders, newOrder]);
   };
 
   const getStatusColor = (status: PurchaseOrder["status"]) => {
@@ -69,7 +94,7 @@ const PurchaseOrders = () => {
             <h1 className="text-3xl font-bold">Purchase Orders</h1>
             <p className="text-gray-600">Manage your purchase orders</p>
           </div>
-          <Button onClick={handleCreateOrder}>Create Order</Button>
+          <CreateOrderDialog suppliers={suppliers} onCreateOrder={handleCreateOrder} />
         </div>
 
         <div className="bg-white rounded-lg shadow">
