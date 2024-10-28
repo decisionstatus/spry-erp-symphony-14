@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Sidebar from "@/components/Layout/Sidebar";
 import { CreateOrderDialog } from "@/components/PurchaseOrders/CreateOrderDialog";
+import { PreviewOrderDialog } from "@/components/PurchaseOrders/PreviewOrderDialog";
 import { Supplier } from "@/components/Suppliers/AddSupplierDialog";
 
 interface PurchaseOrder {
@@ -109,6 +110,7 @@ const PurchaseOrders = () => {
                 <TableHead>Date</TableHead>
                 <TableHead>Total</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,6 +124,9 @@ const PurchaseOrders = () => {
                     <Badge variant="secondary" className={getStatusColor(order.status)}>
                       {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <PreviewOrderDialog order={order} />
                   </TableCell>
                 </TableRow>
               ))}
